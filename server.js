@@ -7,7 +7,7 @@ const app = express();
 app.use(cors())
 
 
-app.get("/api/v1/info", (req , res)=>{
+app.get('/', (req , res)=>{
  try {
     res.status(200).send({
         "slackUsername":"Kelechi Nwaji",
@@ -21,12 +21,6 @@ app.get("/api/v1/info", (req , res)=>{
  }
 })
 
-app.all('*', (req, res, next)=>{
-    res.status(404).json({
-        success: false,
-        message: "path not found"
-     })
-})
 
 app.listen(port, ()=>{
     console.log(`App is running on ${port}`);
