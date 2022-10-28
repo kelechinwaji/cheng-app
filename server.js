@@ -1,16 +1,13 @@
-import express, { Request, Response, NextFunction } from "express";
-import config from 'config'
-import bodyParser, { json } from "body-parser";
-import cors from 'cors';
+const cors = require('cors')
+const express = require('express')
 
-const port = config.get<number>('port')
+const port = 1337
 const app = express();
-app.use(bodyParser.json());
+
 app.use(cors())
 
 
-
-app.get("/api/v1/info", (req:Request , res:Response)=>{
+app.get("/api/v1/info", (req , res)=>{
  try {
     res.status(200).send({
         "slackUsername":"Kelechi Nwaji",
@@ -24,7 +21,7 @@ app.get("/api/v1/info", (req:Request , res:Response)=>{
  }
 })
 
-app.all('*', (req: Request, res: Response, next: NextFunction)=>{
+app.all('*', (req, res, next)=>{
     res.status(404).json({
         success: false,
         message: "path not found"
