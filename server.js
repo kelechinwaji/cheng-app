@@ -12,7 +12,7 @@ app.get('/', (req , res)=>{
     res.status(200).send({
         "slackUsername":"Kelechi Nwaji",
         "backend":true,
-        "age":911,
+        "age":27,
         "bio":"cycle.code.chaw"})
  } catch (error) {
     res.status(405).send({
