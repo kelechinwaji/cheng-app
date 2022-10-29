@@ -10,7 +10,7 @@ app.use(cors())
 app.get('/', (req , res)=>{
  try {
     res.status(200).send({
-        "slackUsername":"Kelechi Nwaji",
+        "slackUsername":"kelechinwaji",
         "backend":true,
         "age":27,
         "bio":"cycle.code.chaw"})
