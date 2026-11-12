@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "npm install --build-from-source=better-sqlite3",
   "env": {
     "DATA_DIR": "/tmp/cheng-ledger-data"
   }

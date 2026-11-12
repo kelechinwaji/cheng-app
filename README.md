@@ -70,6 +70,7 @@ npm run parse-fixture -- fixtures/bank-a-sample.txt
 - Do **not** use deprecated `builds` + `routes` in `vercel.json` (they omit `public/` and conflict with current Express detection).
 - Link **one** Vercel project to this repo (delete duplicate imports if you see several preview checks on the same PR).
 - Set `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`, `APP_BASE_URL`, and optional `OPENING_BALANCE` in the Vercel project env. `DATA_DIR` defaults to `/tmp/cheng-ledger-data` (ephemeral — data resets on cold start; use Render/Railway for durable SQLite).
+- On Vercel, SQLite uses Node 22’s built-in `node:sqlite` (no native `better-sqlite3` compile). Local dev still prefers `better-sqlite3` when installed.
 
 ## Gmail Cloud setup
 

@@ -1,11 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const Database = require('better-sqlite3');
 
-const defaultDataDir =
-  process.env.VERCEL === '1' || process.env.VERCEL_ENV
-    ? path.join('/tmp', 'cheng-ledger-data')
-    : path.join(process.cwd(), 'data');
+const useBuiltinSqlite =
+  process.env.VERCEL === '1' || process.env.VERCEL_ENV || process.env.USE_NODE_SQLITE === '1';
+
+const defaultDataDir = useBuiltinSqlite
+  ? path.join('/tmp', 'cheng-ledger-data')
+  : path.join(process.cwd(), 'data');
 const DATA_DIR = process.env.DATA_DIR || defaultDataDir;
 const DB_PATH = process.env.DATABASE_PATH || path.join(DATA_DIR, 'ledger.sqlite');
 
@@ -17,6 +18,15 @@ function ensureDataDir() {
 
 function openDb() {
   ensureDataDir();
+
+  if (useBuiltinSqlite) {
+    const { DatabaseSync } = require('node:sqlite');
+    const db = new DatabaseSync(DB_PATH);
+    db.exec('PRAGMA foreign_keys = ON');
+    return db;
+  }
+
+  const Database = require('better-sqlite3');
   const db = new Database(DB_PATH);
   db.pragma('journal_mode = WAL');
   db.pragma('foreign_keys = ON');
