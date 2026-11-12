@@ -63,6 +63,14 @@ npm run parse-fixture -- fixtures/bank-a-sample.txt
 - Use a **persistent disk** or mounted volume for `DATA_DIR` so SQLite survives restarts.
 - Cold start is fine: emails stay in Gmail until the next sync.
 
+### Vercel (preview / hobby)
+
+`server.js` is exported for [Vercel Express](https://vercel.com/docs/frameworks/backend/express) (no legacy `builds` / `api/` wrapper). Static UI is served from `public/`.
+
+- Do **not** use deprecated `builds` + `routes` in `vercel.json` (they omit `public/` and conflict with current Express detection).
+- Link **one** Vercel project to this repo (delete duplicate imports if you see several preview checks on the same PR).
+- Set `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`, `APP_BASE_URL`, and optional `OPENING_BALANCE` in the Vercel project env. `DATA_DIR` defaults to `/tmp/cheng-ledger-data` (ephemeral — data resets on cold start; use Render/Railway for durable SQLite).
+
 ## Gmail Cloud setup
 
 1. [Google Cloud Console](https://console.cloud.google.com/) → new project → enable **Gmail API**.

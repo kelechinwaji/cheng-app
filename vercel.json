@@ -1,18 +1,11 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "server.js"
-    }
-  ],
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "env": {
     "DATA_DIR": "/tmp/cheng-ledger-data"
+  },
+  "functions": {
+    "server.js": {
+      "includeFiles": "{node_modules/better-sqlite3/**,node_modules/bindings/**,node_modules/file-uri-to-path/**}"
+    }
   }
 }
