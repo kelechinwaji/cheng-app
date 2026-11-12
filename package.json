@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": "22.x"
+    "node": ">=18"
   },
   "bugs": {
     "url": "https://github.com/kelechinwaji/cheng-app/issues"

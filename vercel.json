@@ -2,8 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "express",
   "installCommand": "npm install",
+  "buildCommand": "npm test",
   "env": {
-    "DATA_DIR": "/tmp/cheng-ledger-data",
-    "USE_NODE_SQLITE": "1"
+    "DATA_DIR": "/tmp/cheng-ledger-data"
   }
 }

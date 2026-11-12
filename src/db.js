@@ -1,10 +1,28 @@
 const fs = require('fs');
 const path = require('path');
 
-const useBuiltinSqlite =
-  process.env.VERCEL === '1' || process.env.VERCEL_ENV || process.env.USE_NODE_SQLITE === '1';
+function preferServerlessDataDir() {
+  return (
+    process.env.VERCEL === '1' ||
+    process.env.VERCEL_ENV ||
+    process.env.NETLIFY === 'true'
+  );
+}
 
-const defaultDataDir = useBuiltinSqlite
+function canUseNodeSqlite() {
+  if (process.env.USE_NODE_SQLITE === '0') return false;
+  const major = Number(process.versions.node.split('.')[0]);
+  return major >= 22;
+}
+
+function shouldTryNodeSqlite() {
+  return (
+    canUseNodeSqlite() &&
+    (process.env.USE_NODE_SQLITE === '1' || preferServerlessDataDir())
+  );
+}
+
+const defaultDataDir = preferServerlessDataDir()
   ? path.join('/tmp', 'cheng-ledger-data')
   : path.join(process.cwd(), 'data');
 const DATA_DIR = process.env.DATA_DIR || defaultDataDir;
@@ -19,11 +37,15 @@ function ensureDataDir() {
 function openDb() {
   ensureDataDir();
 
-  if (useBuiltinSqlite) {
-    const { DatabaseSync } = require('node:sqlite');
-    const db = new DatabaseSync(DB_PATH);
-    db.exec('PRAGMA foreign_keys = ON');
-    return db;
+  if (shouldTryNodeSqlite()) {
+    try {
+      const { DatabaseSync } = require('node:sqlite');
+      const db = new DatabaseSync(DB_PATH);
+      db.exec('PRAGMA foreign_keys = ON');
+      return db;
+    } catch {
+      // Fall back when Node is <22 or node:sqlite is unavailable on the runtime.
+    }
   }
 
   const Database = require('better-sqlite3');
