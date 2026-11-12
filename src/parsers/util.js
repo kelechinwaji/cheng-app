@@ -80,6 +80,70 @@ const DESC_PATTERNS = [
   /(?:for|to)\s+(.{3,120}?)(?:\.|$|\n)/i,
 ];
 
+const MONTH_MAP = {
+  jan: 0,
+  feb: 1,
+  mar: 2,
+  apr: 3,
+  may: 4,
+  jun: 5,
+  jul: 6,
+  aug: 7,
+  sep: 8,
+  oct: 9,
+  nov: 10,
+  dec: 11,
+};
+
+/** Stanbic: 16-Oct-2026 14:45:48 */
+function parseStanbicDate(raw) {
+  if (!raw) return null;
+  const m = raw
+    .trim()
+    .match(/^(\d{2})-([A-Za-z]{3})-(\d{4})\s+(\d{2}):(\d{2}):(\d{2})$/);
+  if (!m) return null;
+  const month = MONTH_MAP[m[2].toLowerCase().slice(0, 3)];
+  if (month === undefined) return null;
+  const d = new Date(
+    Number(m[3]),
+    month,
+    Number(m[1]),
+    Number(m[4]),
+    Number(m[5]),
+    Number(m[6])
+  );
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+}
+
+/** Zenith: 09/11/2026 10:27:23 (DD/MM/YYYY) */
+function parseZenithDate(raw) {
+  if (!raw) return null;
+  const withTime = raw
+    .trim()
+    .match(/^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}):(\d{2}):(\d{2})$/);
+  if (withTime) {
+    const d = new Date(
+      Number(withTime[3]),
+      Number(withTime[2]) - 1,
+      Number(withTime[1]),
+      Number(withTime[4]),
+      Number(withTime[5]),
+      Number(withTime[6])
+    );
+    return Number.isNaN(d.getTime()) ? null : d.toISOString();
+  }
+  const dateOnly = raw.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (dateOnly) {
+    const d = new Date(
+      Number(dateOnly[3]),
+      Number(dateOnly[2]) - 1,
+      Number(dateOnly[1])
+    );
+    return Number.isNaN(d.getTime()) ? null : d.toISOString();
+  }
+  return null;
+}
+
 function extractDescription(text) {
   for (const re of DESC_PATTERNS) {
     const m = text.match(re);
@@ -98,4 +162,6 @@ module.exports = {
   extractAmount,
   extractDate,
   extractDescription,
+  parseStanbicDate,
+  parseZenithDate,
 };

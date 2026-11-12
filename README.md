@@ -23,17 +23,23 @@ Open http://localhost:1337
 2. Copy `GMAIL_REFRESH_TOKEN` into `.env` if you deploy elsewhere (token is also stored in `data/ledger.sqlite`).
 3. Run sync.
 
-## Three banks, one inbox
+## Three banks, one inbox (Stanbic, Zenith, Kuda)
 
-Set sender hints in `.env` (adjust to your real From addresses):
+Built-in parsers match these senders automatically:
 
-```env
-BANK_A_FROM=firstbank.com
-BANK_B_FROM=gtbank.com
-BANK_C_FROM=accessbank.com
-```
+| Bank | Typical From | Parser |
+|------|----------------|--------|
+| Stanbic IBTC | `StanbicIBTC-E-Alert@stanbicibtc.com` | Labelled amount, description, transaction date |
+| Zenith Bank | `ebusinessgroup@zenithbank.com` | Transfer receipt table + subject beneficiary |
+| Kuda | `no-reply@kuda.com` | `You just sent/received ₦…` sentence |
 
-Share redacted samples in `fixtures/` — we tune one parser template per bank. Until then, a **generic** parser handles common debit/credit + NGN patterns; uncertain rows land in **Review queue**.
+**Gmail filters** (all → label `Bank/Transactions`):
+
+- From: `stanbicibtc.com`
+- From: `zenithbank.com`
+- From: `kuda.com`
+
+Redacted samples live in [`fixtures/`](fixtures/). Run `npm test` to validate parsers.
 
 Test a pasted email:
 

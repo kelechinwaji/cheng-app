@@ -2,11 +2,12 @@
 
 Add one redacted sample per bank so we can tune parsers.
 
-Suggested file names:
+Included samples (from real redacted alerts):
 
-- `bank-a-sample.txt`
-- `bank-b-sample.txt`
-- `bank-c-sample.txt`
+- `stanbic-credit.txt`
+- `zenith-debit-transfer.txt`
+- `kuda-debit-send.txt`
+- `kuda-credit-receive.txt` (synthetic credit pattern)
 
 Each file can start with:
 

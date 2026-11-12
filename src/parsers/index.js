@@ -1,23 +1,32 @@
 const { stripHtml, detectType, extractAmount, extractDate, extractDescription } = require('./util');
+const { parseStanbic } = require('./stanbic');
+const { parseZenith } = require('./zenith');
+const { parseKuda } = require('./kuda');
+
+const DEFAULT_FROM_PATTERNS = {
+  stanbic_ibtc: ['stanbicibtc.com'],
+  zenith: ['zenithbank.com'],
+  kuda: ['kuda.com'],
+};
 
 const BANK_DEFINITIONS = [
   {
-    key: 'bank_a',
-    name: 'Bank A',
+    key: 'stanbic_ibtc',
+    name: 'Stanbic IBTC',
+    parse: parseStanbic,
     matchFrom: () => false,
-    notes: 'Replace matchFrom with sender domain from your sample',
   },
   {
-    key: 'bank_b',
-    name: 'Bank B',
+    key: 'zenith',
+    name: 'Zenith Bank',
+    parse: parseZenith,
     matchFrom: () => false,
-    notes: 'Replace matchFrom with sender domain from your sample',
   },
   {
-    key: 'bank_c',
-    name: 'Bank C',
+    key: 'kuda',
+    name: 'Kuda',
+    parse: parseKuda,
     matchFrom: () => false,
-    notes: 'Replace matchFrom with sender domain from your sample',
   },
 ];
 
@@ -31,16 +40,19 @@ function matchSender(fromHeader, patterns) {
 }
 
 function configureBanksFromEnv() {
-  const map = {
-    bank_a: process.env.BANK_A_FROM?.split(',').map((s) => s.trim()).filter(Boolean),
-    bank_b: process.env.BANK_B_FROM?.split(',').map((s) => s.trim()).filter(Boolean),
-    bank_c: process.env.BANK_C_FROM?.split(',').map((s) => s.trim()).filter(Boolean),
+  const envKeys = {
+    stanbic_ibtc: process.env.BANK_STANBIC_FROM || process.env.BANK_A_FROM,
+    zenith: process.env.BANK_ZENITH_FROM || process.env.BANK_B_FROM,
+    kuda: process.env.BANK_KUDA_FROM || process.env.BANK_C_FROM,
   };
+
   for (const def of BANK_DEFINITIONS) {
-    const patterns = map[def.key] || [];
-    if (patterns.length) {
-      def.matchFrom = (from) => matchSender(from, patterns);
-    }
+    const fromEnv = envKeys[def.key]
+      ?.split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const patterns = fromEnv?.length ? fromEnv : DEFAULT_FROM_PATTERNS[def.key];
+    def.matchFrom = (from) => matchSender(from, patterns);
   }
 }
 
@@ -87,6 +99,15 @@ function parseGeneric({ subject, bodyPlain, bodyHtml, internalDate, from }) {
   };
 }
 
+function parseWithDispatch(input) {
+  const bank = detectBank(input.from);
+  if (bank?.parse) {
+    const result = bank.parse(input);
+    if (result.ok) return result;
+  }
+  return parseGeneric(input);
+}
+
 function parseBankEmail(message) {
   const headers = message.payload?.headers || [];
   const getHeader = (name) =>
@@ -96,7 +117,7 @@ function parseBankEmail(message) {
   const from = getHeader('From');
   const body = extractBodies(message.payload);
 
-  const result = parseGeneric({
+  const result = parseWithDispatch({
     subject,
     from,
     bodyPlain: body.plain,
@@ -136,6 +157,7 @@ module.exports = {
   BANK_DEFINITIONS,
   detectBank,
   parseGeneric,
+  parseWithDispatch,
   parseBankEmail,
   configureBanksFromEnv,
 };

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "parse-fixture": "node scripts/parse-fixture.js",
-    "test": "node test/parser.test.js"
+    "test": "node test/parser.test.js && node test/banks.test.js"
   },
   "repository": {
     "type": "git",
