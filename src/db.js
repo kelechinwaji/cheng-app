@@ -2,7 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const Database = require('better-sqlite3');
 
-const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
+const defaultDataDir =
+  process.env.VERCEL === '1' || process.env.VERCEL_ENV
+    ? path.join('/tmp', 'cheng-ledger-data')
+    : path.join(process.cwd(), 'data');
+const DATA_DIR = process.env.DATA_DIR || defaultDataDir;
 const DB_PATH = process.env.DATABASE_PATH || path.join(DATA_DIR, 'ledger.sqlite');
 
 function ensureDataDir() {
