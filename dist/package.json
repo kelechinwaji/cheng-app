@@ -1,35 +1,10 @@
 {
   "name": "cheng-app",
   "version": "1.0.0",
-  "description": "Personal finance ledger synced from bank alert emails",
+  "private": true,
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "node scripts/prepare-dist.js",
-    "parse-fixture": "node scripts/parse-fixture.js",
-    "test": "node test/parser.test.js && node test/banks.test.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kelechinwaji/cheng-app.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "engines": {
-    "node": ">=18"
-  },
-  "bugs": {
-    "url": "https://github.com/kelechinwaji/cheng-app/issues"
-  },
-  "homepage": "https://github.com/kelechinwaji/cheng-app#readme",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "googleapis": "^144.0.0",
-    "serverless-http": "^3.2.0"
-  },
-  "optionalDependencies": {
-    "better-sqlite3": "^11.10.0"
+    "build": "cd .. && npm install && npm run build"
   }
 }
