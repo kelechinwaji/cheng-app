@@ -1,21 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "version": 2,
-  "installCommand": "npm install",
-  "builds": [
-    { "src": "public/**", "use": "@vercel/static" },
-    {
-      "src": "server.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["node_modules/better-sqlite3/**", "node_modules/bindings/**"]
-      }
-    }
-  ],
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "server.js" }
-  ],
+  "installCommand": "npm install --build-from-source=better-sqlite3",
   "env": {
     "DATA_DIR": "/tmp/cheng-ledger-data"
   }
