@@ -2,6 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "express",
   "installCommand": "npm install",
+  "buildCommand": "npm run build",
   "env": {
     "DATA_DIR": "/tmp/cheng-ledger-data"
   }

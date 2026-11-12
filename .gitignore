@@ -2,4 +2,7 @@ node_modules
 build
 data/
 .env
-*.sqlitedist/
+*.sqlite
+dist/*
+!dist/package.json
+!dist/vercel.json

@@ -5,8 +5,8 @@ This repo is linked to **three** Vercel GitHub projects. Two usually pass; `chen
 In [Vercel → Project Settings](https://vercel.com):
 
 1. **General → Framework Preset:** Express (or let `vercel.json` `framework: express` apply).
-2. **Root Directory:** empty (repository root), **not** `public`, `dist`, or `api`.
-3. **Build & Output:** clear custom **Output Directory** (must not be `public` alone for this app).
+2. **Root Directory:** empty (repo root), or `dist` if you keep the legacy setting — `npm run build` generates `dist/` on each deploy.
+3. **Build & Output:** **Build Command** should be `npm run build` (or leave empty if using root `vercel.json`).
 4. **Node.js Version:** 22.x (or ≥18 with `better-sqlite3` fallback in `src/db.js`).
 5. Or **disconnect** this duplicate project and keep a single Vercel project for the repo.
 
