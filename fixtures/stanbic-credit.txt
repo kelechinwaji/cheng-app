@@ -1,0 +1,13 @@
+Subject: StanbicIBTC Bank Transaction Notification
+From: StanbicIBTC-E-Alert@stanbicibtc.com
+
+Dear KELECHUKWU HYACINTH NWAJI,
+
+Credit alert details
+Amount: NGN 100,000.00
+Current Balance: NGN 100,013.90
+Description: 000004261016143814620988919536 UBA NOMINEE FIRST TRUSTEES STANBIC IBTC MONEY MAR HEAD OFFICE BRANCH
+Transaction Reference: S31752361/1
+Account Number: XXXXXX9640
+Transaction Date & Time: 16-Oct-2026 14:45:48
+Your Branch: HEAD OFFICE BRANCH -IBTC PLACE

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Finance ledger</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Finance ledger</h1>
+      <p class="sub">Bank emails → automatic bookkeeping</p>
+    </header>
+
+    <section class="actions">
+      <button id="syncBtn" type="button">Sync Gmail now</button>
+      <button id="refreshBtn" type="button" class="secondary">Refresh</button>
+      <span id="syncStatus" class="muted"></span>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Balance</h2>
+        <p class="big" id="balance">—</p>
+        <p class="muted" id="balanceMeta"></p>
+      </article>
+      <article class="card">
+        <h2>This month</h2>
+        <p id="monthIncome">Income: —</p>
+        <p id="monthExpenses">Expenses: —</p>
+      </article>
+      <article class="card">
+        <h2>Setup</h2>
+        <p id="gmailStatus" class="muted">—</p>
+        <a id="oauthLink" href="#" class="hidden">Connect Gmail</a>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Review queue</h2>
+      <div id="reviewList" class="list"></div>
+    </section>
+
+    <section class="card">
+      <h2>Recent transactions</h2>
+      <div id="txList" class="list"></div>
+    </section>
+
+    <section class="card">
+      <h2>Manual entry (cash / corrections)</h2>
+      <form id="manualForm" class="manual-form">
+        <select name="type" required>
+          <option value="debit">Debit</option>
+          <option value="credit">Credit</option>
+        </select>
+        <input name="amount" type="number" step="0.01" min="0" placeholder="Amount" required />
+        <input name="description" type="text" placeholder="Description" required />
+        <input name="occurred_at" type="datetime-local" required />
+        <button type="submit">Add</button>
+      </form>
+    </section>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

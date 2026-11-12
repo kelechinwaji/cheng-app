@@ -1,0 +1,102 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #1b1f24;
+  background: #f4f6f8;
+}
+
+body {
+  margin: 0 auto;
+  padding: 1.25rem;
+  max-width: 960px;
+}
+
+header h1 {
+  margin: 0;
+}
+
+.sub,
+.muted {
+  color: #5c6672;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1rem 0 1.25rem;
+  flex-wrap: wrap;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  background: #1463ff;
+  color: #fff;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #d7dce3;
+  color: #1b1f24;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.big {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0.25rem 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.row {
+  border: 1px solid #e8ebef;
+  border-radius: 8px;
+  padding: 0.65rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.row.credit .amt {
+  color: #0d7a45;
+}
+
+.row.debit .amt {
+  color: #b42318;
+}
+
+.manual-form {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.hidden {
+  display: none;
+}
+
+input,
+select {
+  padding: 0.45rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid #ccd2d9;
+}
